@@ -1,16 +1,8 @@
 import React from 'react'
-import Axios from 'axios'
 
 export default function Home() {
-    async function login() {
-        await Axios({
-            method: 'get',
-            url: '/login',
-        })
-        .then(res => console.log(res))
-        .catch(err => console.log("Error: ",  err));
-    }
+
     return (
-        <input type="button" onClick={async () => await login()} value="Spotify login" />
+        <a href='https://accounts.spotify.com/authorize?response_type=token&client_id=//&scope=user-read-private user-read-playback-state user-read-email user-read-currently-playing&redirect_uri=http://localhost:3000/callback'>Spotify login </a>
     )
 }
