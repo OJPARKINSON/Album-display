@@ -7,13 +7,29 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(cors())
-    
+let at = ""
+
 app.post("/callback", async (req, res) => {
-    console.log(req.body.code);
-    res.send({url: await currentTrack( await req.body.code)})
+    at = req.body.code
+    res.send({ name: await axios({
+            method: 'get',
+            url: 'https://api.spotify.com/v1/me',
+            headers: {
+                'Authorization': 'Bearer ' + at,
+                Accept: "application/json" 
+            },
+            responseType: "json"
+        })
+    .then(async response => response.data.display_name)
+    .catch(err => console.log(err))});
 });
 
-async function currentTrack(at) {
+app.get('/album', async (req, res) => { 
+    console.log(await currentTrack())
+    res.send({album: await currentTrack()});
+});
+
+async function currentTrack() {
     return axios({
         url: "https://api.spotify.com/v1/me/player/currently-playing",
         method: "get",
@@ -22,8 +38,8 @@ async function currentTrack(at) {
             Accept: "application/json" 
         }
     })
-    .then(response => response.data.item.album.images[0].url)
+    .then(response => response.data)
     .catch(err => console.log(err));
-}
+}  
 
 app.listen(5000);

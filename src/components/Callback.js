@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import Axios from 'axios'
+import { Redirect } from 'react-router-dom';
 
 const Callback = (props) => {
-    const [urlHook, setUrlHook] = useState();
+    const [responseHook, setResponseHook] = useState();
     useEffect(() => {
         Axios({
             url: '/callback', 
@@ -12,14 +13,14 @@ const Callback = (props) => {
             },
             responseType: "json"
         })
-        .then(res => {console.log(res.data.url); setUrlHook(res.data.url)})
+        .then(res => setResponseHook(res.data.name))
         .catch(error => console.log(error))
-    }, [])
+    }, [props.history.location.hash])
+    
     return (
         <div>
             <h1>callback</h1>
-            <p>{props.history.location.hash.replace('#access_token=', '').replace("&token_type=Bearer&expires_in=3600", "")}</p>
-            <img src={urlHook} alt="" />
+            <p>{responseHook ? <Redirect to="/album" /> : 'Loading'}</p>
         </div>
     )
 }

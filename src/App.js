@@ -8,6 +8,7 @@ import {
 import './App.css';
 import Home from './components/Home'
 import Callback from './components/Callback'
+import Album from "./components/Album";
 
 export default function App() {
   return (
@@ -16,21 +17,14 @@ export default function App() {
         <nav>
           <ul>
             <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/callback">Callback</Link>
+              <Link to="/">Login</Link>
             </li>
           </ul>
         </nav>
-
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
         <Switch>
-          <Route path="/callback" component={Callback}/>
-          <Route path="/">
-            <Home />
-          </Route>
+          <Route path="/album" component={Album} />
+          <Route path="/callback" component={Callback} />
+          <Route path="/" component={Home} />
         </Switch>
       </div>
     </Router>
