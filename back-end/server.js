@@ -20,13 +20,14 @@ app.post("/callback", async (req, res) => {
             },
             responseType: "json"
         })
-    .then(async response => response.data.display_name)
-    .catch(err => console.log(err))});
+    .then( response => response.data.display_name)
+    .catch(err => err.message)});
 });
 
 app.get('/album', async (req, res) => { 
-    console.log(await currentTrack())
-    res.send({album: await currentTrack()});
+    res.send(await currentTrack());
+    //error is 204 NO CONTENT
+
 });
 
 async function currentTrack() {
@@ -38,8 +39,8 @@ async function currentTrack() {
             Accept: "application/json" 
         }
     })
-    .then(response => response.data)
-    .catch(err => console.log(err));
+    .then(response =>{return {url: response.data.item.album.images[0].url, name: response.data.item.album.name, error: ''}})
+    .catch(error => {console.log(error); return {url: "", name: "", error: error.message}});
 }  
 
 app.listen(5000);
