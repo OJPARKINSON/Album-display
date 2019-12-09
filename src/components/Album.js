@@ -9,14 +9,14 @@ const Album = () => {
             method: 'get',
             responseType: "json"
         })
-        .then(res => {console.log(res); setUrlHook(res.data)})
+        .then(res => setUrlHook(res.data))
         .catch(error => console.log(error))
     }, [])
     return urlHook ?  (
         <div>
             <img src={urlHook.url} alt="" />
             {urlHook.name}
-            {urlHook.error}
+            {urlHook.error ? urlHook.error : null}
         </div>
     ) : (
         "error"
