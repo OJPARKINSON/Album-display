@@ -9,17 +9,18 @@ const Album = () => {
             method: 'get',
             responseType: "json"
         })
-        .then(res => setUrlHook(res.data))
+        .then(res => { console.log(res.data); setUrlHook(res.data)})
         .catch(error => console.log(error))
     }, [])
     return urlHook ?  (
         <div>
             <img src={urlHook.url} alt="" />
             {urlHook.name}
-            {urlHook.error ? urlHook.error : null}
+            {urlHook.error ? (<div><h2>Error: {urlHook.error}, please login again</h2> <a href="http://localhost:3000/">Login</a></div>) :  <a href="http://localhost:8888/logout">Logout</a>}
+           
         </div>
     ) : (
-        "error"
+        "Loading..."
     )
 }
 

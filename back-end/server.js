@@ -1,115 +1,101 @@
-
 var express = require('express'),
     session = require('express-session'),
     passport = require('passport'),
-    SpotifyStrategy = require('passport-spotify').Strategy;
-const axios =  require('axios');
-const cors = require('cors');
-var morgan = require('morgan');
-// const redis = require('redis');
+    SpotifyStrategy = require('passport-spotify').Strategy,
+    axios =  require('axios'),
+    cors = require('cors'),
+    morgan = require('morgan'),
+    redis = require("redis"),
+    client = redis.createClient(),
+    cookieParser = require('cookie-parser'),
+    bodyParser = require('body-parser')
 
 const app = express();
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
-app.use(session({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(express.static(__dirname + '/public'));
 
-
-// const redisClient = redis.createClient({host : 'localhost', port : 6379});
-// redisClient.on('ready',function() {
-//     console.log("Redis is ready");
-// });
-// redisClient.on('error',function() {
-//     console.log("Error in Redis");
-// });
-
-app.use(cors())
-    .use(express.static(__dirname + '/public'))
-    .use(morgan('dev'))
-    .use(session({ secret: 'keyboard cat', resave: true, saveUninitialized: true }))
+app.use(express.static('public'))
+    .use(cookieParser())
+    .use(bodyParser())
+    .use(session({ secret: 'keyboard cat' }))
     .use(passport.initialize())
-    .use(passport.session());
+    .use(passport.session())
+    .use(cors())
+    .use(morgan('dev'));
+
 
 passport.serializeUser(function(user, done) {
-    done(null, user);
+    done(null, user.id);
 });
+    
 passport.deserializeUser(function(obj, done) {
     done(null, obj);
 });
-var at = ""
 passport.use(
     new SpotifyStrategy(
       {
-        clientID: "",
-        clientSecret: "",
+        clientID: '889c56fec9944ecfb7e0a4af6a50cfd1',
+        clientSecret: '019a580b524c4bbe9ef0992b9d78670c',
         callbackURL: 'http://localhost:8888/callback'
       },
       function(accessToken, refreshToken, expires_in, profile, done) {
-
-        at = accessToken
+        client.set(profile.id, `${accessToken} ${refreshToken}`);
         process.nextTick(function() {
-        // To keep the example simple, the user's spotify profile is returned to
-        // represent the logged-in user. In a typical application, you would want
-        // to associate the spotify account with a user record in your database,
-        // and return that user instead.
-        return done(null, profile);
+            return done(null, profile);
         });
     }
     )
 );
 
-app.get('/auth',
-    passport.authenticate('spotify', {
-    scope: ['user-read-private user-read-playback-state streaming user-read-email user-read-private user-read-currently-playing'],
-    failureRedirect: '/',
-    showDialog: true
-  })
-);
-
 app.get('/login', 
     passport.authenticate('spotify', {
         scope: ['user-read-private user-read-playback-state streaming user-read-email user-read-private user-read-currently-playing'],
-    })
+        showDialog: true
+    }),
+    
 );
 
 app.get('/callback',
-    passport.authenticate('spotify', { failureRedirect: '/login' }),
+    passport.authenticate('spotify', { failureRedirect: 'http://localhost:3000/' }),
     function(req, res) {
+        
         res.redirect('http://localhost:3000/album');
     }
 );
 
 app.get('/logout', function(req, res) {
+    
+    client.del(req.session.passport.user)
     req.logout();
     res.redirect('http://localhost:3000/');
   });
 
-app.get('/album', ensureAuthenticated, async (req, res) => { 
-    res.send(await currentTrack());
-    //error is 204 NO CONTENT
-
-});
-
-function currentTrack() {
-    return axios({
-        url: "https://api.spotify.com/v1/me/player/currently-playing",
-        method: "get",
-        headers: {
-            'Authorization': 'Bearer ' + at,
-            Accept: "application/json" 
+app.get('/album', async (req, res) => {
+    if (req.session.passport.user === undefined) {
+        res.send({error: 'Session failed'})
+    }
+    client.get(req.session.passport.user,(err, reply) => {
+        if (!err) {
+            axios({
+                url: "https://api.spotify.com/v1/me/player/currently-playing",
+                method: "get",
+                headers: {
+                    'Authorization': 'Bearer ' + reply.split(' ')[0],
+                    Accept: "application/json" 
+                }
+            })
+            .then(response => { res.send((response.status === 204) ? {error: "Please make sure music is playing"}: {url: response.data.item.album.images[0].url, name: response.data.item.album.name})})
+            .catch(error => console.log(error)); 
+        } else {
+            res.send({error: err})
         }
-    })
-    .then(response =>{return {url: response.data.item.album.images[0].url, name: response.data.item.album.name}})
-    .catch(error => console.log(error));
-}  
+        
+    });
+});
 
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
       return next();
     }
-    res.redirect('/login');
+    res.redirect('http://localhost:3000/');
   }
 
 app.listen(8888);
