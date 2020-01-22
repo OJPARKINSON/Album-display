@@ -8,7 +8,8 @@ var express = require('express'),
     redis = require("redis"),
     client = redis.createClient(),
     cookieParser = require('cookie-parser'),
-    bodyParser = require('body-parser')
+    bodyParser = require('body-parser'),
+    socket = require('socket.io-client')('http://localhost');
 
 const app = express();
 
@@ -33,7 +34,8 @@ passport.deserializeUser(function(obj, done) {
 passport.use(
     new SpotifyStrategy(
       {
-
+        clientID: '889c56fec9944ecfb7e0a4af6a50cfd1',
+        clientSecret: '019a580b524c4bbe9ef0992b9d78670c',
         callbackURL: 'http://localhost:8888/callback'
       },
       function(accessToken, refreshToken, expires_in, profile, done) {
@@ -60,8 +62,8 @@ app.get('/callback',
 );
 
 app.get('/logout', function(req, res) {
-    req.session.albumCache = null;
     client.del(req.session)
+    req.session.albumCache = null;
     req.logout();
     res.redirect('http://localhost:3000/');
   });

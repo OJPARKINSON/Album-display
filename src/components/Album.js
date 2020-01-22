@@ -10,9 +10,9 @@ const Album = () => {
                 method: 'get',
                 responseType: "json"
             })
-            .then(res => { console.log(res.status); return (res.status === 204 ) ?  undefined :  setUrlHook(res.data)})
+            .then(res => { console.log(res.status, res.data); return (res.status === 204 ) ?  undefined :  setUrlHook(res.data)})
             .catch(error => console.log(error))
-        }, 3000);
+        }, 1000);
 
     }, [])
     
@@ -22,7 +22,6 @@ const Album = () => {
             <img src={urlHook.url} alt="" />
             {urlHook.name}
             {urlHook.error ? (<div><h2>Error: {urlHook.error}, please login again</h2> <a href="http://localhost:3000/">Login</a></div>) :  <a href="http://localhost:8888/logout">Logout</a>}
-
         </div>
     ) : (
         <div>
