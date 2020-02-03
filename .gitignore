@@ -2,3 +2,5 @@ node_modules
 private.key
 /back-end/.env
 *.rdb
+package-lock.json
+.idea/

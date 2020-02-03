@@ -12,6 +12,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "morgan": "^1.9.1",
+    "node-vibrant": "^3.1.5",
     "passport": "^0.4.0",
     "passport-spotify": "^1.1.0",
     "react": "^16.12.0",

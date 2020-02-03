@@ -20,7 +20,6 @@ app.use(express.static('public'))
     .use(passport.initialize())
     .use(passport.session())
     .use(cors())
-    .use(morgan('dev'));
 
 
 passport.serializeUser(function(user, done) {
@@ -34,8 +33,7 @@ passport.deserializeUser(function(obj, done) {
 passport.use(
     new SpotifyStrategy(
       {
-        clientID: '889c56fec9944ecfb7e0a4af6a50cfd1',
-        clientSecret: '019a580b524c4bbe9ef0992b9d78670c',
+
         callbackURL: 'http://localhost:8888/callback'
       },
       function(accessToken, refreshToken, expires_in, profile, done) {
@@ -67,40 +65,44 @@ app.get('/logout', function(req, res) {
     req.logout();
     res.redirect('http://localhost:3000/');
   });
-
 app.get('/album', async (req, res) => {
     if (req.session.passport === undefined) {
         res.send({error: 'Session failed'})
         return null
     }
+    if (req.session.dateUpdated === undefined) {
+        req.session.dateUpdated = 'Fri, 20 Jan 2012 16:51:36 GMT';
+    }
     client.get(req.session.passport.user, (err, reply) => {
         if (!err) {
+
             axios({
                 url: "https://api.spotify.com/v1/me/player/currently-playing",
                 method: "get",
                 headers: {
                     'Authorization': 'Bearer ' + reply.split(' ')[0],
-                    Accept: "application/json" 
+                    'If-Modified-Since': req.session.dateUpdated,
+                    Accept: "application/json"
                 }
             })
-            .then(response => { 
-                // console.log(response.data.item.album.id);
-                // console.log(req.session.albumCache);
-                if (response.status === 204) {
+                .then(response => {
+                    console.log(req.session.dateUpdated );
+                    console.log(response.status);
+                    if (response.status === 204) {
                         res.send({error: "Please make sure music is playing"});
-                } else if (req.session.albumCache === response.data.item.album.id) {
-                    res.sendStatus(204);
-                } else {
-                    req.session.albumCache = response.data.item.album.id;
-                    res.send({url: response.data.item.album.images[0].url, name: response.data.item.album.name});
-                }
-            })
-            .catch(error => console.log(error));     
+                    } else if (req.session.albumCache === response.data.item.album.id) {
+                        res.sendStatus(204);
+                    } else {
+                        req.session.dateUpdated = response.headers.date
+                        req.session.albumCache = response.data.item.album.id;
+                        res.send({url: response.data.item.album.images[0].url, name: response.data.item.album.name});
+                    }
+                })
+                .catch(error => console.log(error));
         } else {
             res.send({error: err})
         }
-        
-    });
+    })
 });
 
 function ensureAuthenticated(req, res, next) {
