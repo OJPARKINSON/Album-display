@@ -12,6 +12,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "morgan": "^1.9.1",
+    "next": "^9.2.1",
     "node-vibrant": "^3.1.5",
     "passport": "^0.4.0",
     "passport-spotify": "^1.1.0",
@@ -26,10 +27,9 @@
     "nodemon": "^2.0.0"
   },
   "scripts": {
-    "start": "concurrently \"react-scripts start\" \" cd back-end && nodemon server.js\" \"redis-server\"",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
   },
   "eslintConfig": {
     "extends": "react-app"
