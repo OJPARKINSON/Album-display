@@ -4,12 +4,10 @@ var express = require('express'),
     SpotifyStrategy = require('passport-spotify').Strategy,
     axios =  require('axios'),
     cors = require('cors'),
-    morgan = require('morgan'),
     redis = require("redis"),
     client = redis.createClient(),
     cookieParser = require('cookie-parser'),
-    bodyParser = require('body-parser'),
-    socket = require('socket.io-client')('http://localhost');
+    bodyParser = require('body-parser');
 
 const app = express();
 
