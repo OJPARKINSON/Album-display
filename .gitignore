@@ -4,3 +4,4 @@ private.key
 *.rdb
 package-lock.json
 .idea/
+.env
