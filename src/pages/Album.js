@@ -16,7 +16,7 @@ const Album = () => {
             "background-size": "cover",
             "background-repeat": "round", 
             "filter": "blur(1.5rem)",
-            "margin": "0px",
+            "margin": "-3vw",
             "height": "50vw",
             "padding": "0px"}}
         />
