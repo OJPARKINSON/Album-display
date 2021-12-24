@@ -1,10 +1,13 @@
 import useSWR from 'swr';
 
-import fetcher from '../lib/fetcher';
+import fetcher from 'lib/fetcher';
 
 export default function Tracks() {
-    const {data} = useSWR('/api/top-tracks', fetcher);
-    if (!data) return null
+    const { data, error } = useSWR('/api/top-tracks', fetcher);
+    if (!data || error) {
+        console.error({error})
+        return <p>Error, please try again later</p>
+    }
     const { tracks } = data;
 
     return (
