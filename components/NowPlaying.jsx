@@ -3,9 +3,8 @@ import useSWR from 'swr';
 
 import fetcher from 'lib/fetcher';
 
-
 export default function NowPlaying() {
-    const {data} = useSWR('/api/now-playing', fetcher, {refreshInterval: 4500});
+    const { data } = useSWR('/api/now-playing', fetcher, { refreshInterval: 4000 });
 
     return (
         <div>
