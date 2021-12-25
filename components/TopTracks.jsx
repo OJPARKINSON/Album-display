@@ -12,7 +12,7 @@ export default function Tracks() {
     const { tracks } = data;
 
     return (
-        <ul>
+        <ul className="">
             {tracks.map(({songUrl, title, artist}, index) => (
                 <li key={songUrl}>
                     <p>
