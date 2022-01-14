@@ -19,7 +19,8 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "format": "prettier --write '**/*.{js,md,css,scss,json,ts}'"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -35,5 +36,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "_moduleAliases": {
+    "@components": "components",
+    "@lib": "lib"
   }
 }

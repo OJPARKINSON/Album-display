@@ -1,6 +1,6 @@
 module.exports = {
   images: {
-    domains: ['i.scdn.co'],
+    domains: ["i.scdn.co"],
   },
   swcMinify: true,
   reactStrictMode: true,
