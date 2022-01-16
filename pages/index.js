@@ -6,14 +6,15 @@ export default ({ tweets }) => {
  return (
   <div>
     <NowPlaying />
-    {tweets.map(({ media, url }) => (
-      <img key={media} src={url} />
-    ))}
   </div>
 )};
 
-export async function getStaticProps() {
-  const tweets = await getTweets();
 
-  return { props: { tweets } };
-}
+/* {tweets.map(({ media, url }) => (
+<img key={media} src={url} />
+))} */
+// export async function getStaticProps() {
+//   const tweets = await getTweets();
+
+//   return { props: { tweets } };
+// }
