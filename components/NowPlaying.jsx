@@ -3,7 +3,7 @@ import useSWR from "swr";
 import fetcher from "lib/fetcher";
 
 export default function NowPlaying() {
-  const ops = { refreshInterval: 4000, refreshWhenHidden: true };
+  const ops = { refreshInterval: 3000, refreshWhenHidden: true };
   const { data, error } = useSWR("/api/now-playing", fetcher, ops);
   const { albumImageUrl, title, isPodcast, isPlaying } = data || {};
 
