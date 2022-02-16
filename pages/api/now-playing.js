@@ -7,13 +7,11 @@ export default async function handler(req, res) {
     return res.status(200).json({ isPlaying: false });
   }
 
-  const song = await response.json();
-
-  if (song.is_playing === false) {
+  if (response.is_playing === false) {
     return res.status(200).json({ isPlaying: false });
   }
 
-  const { is_playing, item, currently_playing_type } = song;
+  const { is_playing, item, currently_playing_type } = response;
   const { name, artists, album, external_urls } = item || {};
 
   res.setHeader(

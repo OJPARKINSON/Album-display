@@ -2,9 +2,13 @@ import Image from "next/image";
 import useSWR from "swr";
 import fetcher from "lib/fetcher";
 
-export default function NowPlaying() {
+function useAlbum() {
   const ops = { refreshInterval: 3000, refreshWhenHidden: true };
-  const { data, error } = useSWR("/api/now-playing", fetcher, ops);
+  return useSWR("/api/now-playing", fetcher, ops);
+}
+
+export default function NowPlaying() {
+  const { data, error } = useAlbum();
   const { albumImageUrl, title, isPodcast, isPlaying } = data || {};
 
   if (error) return <p>error</p>;
