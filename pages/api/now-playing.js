@@ -23,7 +23,7 @@ export default async function handler(req, res) {
     isPlaying: is_playing,
     isPodcast: currently_playing_type === "episode",
     title: name,
-    artist: artists?.map(({name}) => name).join(", ") || null,
+    artist: artists?.map(({ name }) => name).join(", ") || null,
     album: album?.name,
     albumImageUrl: album?.images?.[0]?.url,
     songUrl: external_urls?.spotify,

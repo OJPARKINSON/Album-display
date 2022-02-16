@@ -1,14 +1,13 @@
 import NowPlaying from "components/NowPlaying";
 import { getTweets } from "../lib/twitter";
 
-
 export default ({ tweets }) => {
- return (
-  <div>
-    <NowPlaying />
-  </div>
-)};
-
+  return (
+    <div>
+      <NowPlaying />
+    </div>
+  );
+};
 
 /* {tweets.map(({ media, url }) => (
 <img key={media} src={url} />
