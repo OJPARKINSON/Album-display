@@ -1,20 +1,17 @@
 import Image from "next/image";
-import useSWR from "swr";
-import fetcher from "lib/fetcher";
+import { useLastFM } from "use-last-fm";
 
-function useAlbum() {
-  const ops = { refreshInterval: 3000, refreshWhenHidden: true };
-  return useSWR("/api/now-playing", fetcher, ops);
-}
+const clientID = process.env.LASTFM_CLIENT_ID;
 
 export default function NowPlaying() {
-  const { data, error } = useAlbum();
-  const { albumImageUrl, title, isPodcast, isPlaying } = data || {};
+  const { status, song } = useLastFM("OJPARKINSON", clientID);
 
-  if (error) return <p>error</p>;
-  if (!data) return <p>loading...</p>;
-  if (isPodcast) return <p>Podcast playing</p>;
-  if (!isPlaying) return <p>Nowt Playing</p>;
+  if (status === "error") return <p>error</p>;
+  if (!status) return <p>loading...</p>;
 
-  return <Image src={albumImageUrl} alt={title} layout="fill" />;
+  if (status === "idle") return <p>Nowt Playing</p>;
+
+  const bonkArt = song?.art.replace("300x300", "1500x1500");
+
+  return <Image src={bonkArt} alt={song?.name} layout="fill" quality={100} />;
 }

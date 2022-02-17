@@ -1,6 +1,6 @@
 module.exports = {
   images: {
-    domains: ["i.scdn.co", "pbs.twimg.com"],
+    domains: ["i.scdn.co", "pbs.twimg.com", "lastfm.freetls.fastly.net"],
   },
   env: {
     SPOTIFY_CLIENT_ID: process.env.SPOTIFY_CLIENT_ID,
