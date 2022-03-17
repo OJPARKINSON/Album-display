@@ -25,10 +25,18 @@ export default function index({ tweets }) {
   return (
     <div style={{ position: "relative", height: "100vh", width: "100vw" }}>
       {status === "playing" && (
-        <Image src={bonkArt} alt={song?.name} layout="fill" />
+        <img
+          src={bonkArt}
+          alt={song?.name}
+          style={{ height: "300px", width: "300px" }}
+        />
       )}
       {data?.albumImageUrl && (
-        <Image src={data.albumImageUrl} alt={data.album} layout="fill" />
+        <img
+          src={data.albumImageUrl}
+          alt={data.album}
+          style={{ height: "300px", width: "300px" }}
+        />
       )}
     </div>
   );
