@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { useLastFM } from "use-last-fm";
 import { getTweets } from "lib/twitter";
 import useSWR from "swr";
