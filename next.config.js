@@ -7,6 +7,8 @@ module.exports = {
     SPOTIFY_CLIENT_SECRET: process.env.SPOTIFY_CLIENT_SECRET,
     SPOTIFY_REFRESH_TOKEN: process.env.SPOTIFY_REFRESH_TOKEN,
     LASTFM_CLIENT_ID: process.env.LASTFM_CLIENT_ID,
+    TWITTER_API_KEY: process.env.TWITTER_API_KEY,
+    TWITTER_ID: process.env.TWITTER_ID,
   },
   reactStrictMode: true,
 };
