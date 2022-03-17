@@ -10,6 +10,7 @@ export default function index({ tweets }) {
   const { status, song } = useLastFM("OJPARKINSON", clientID, 4000);
   const { data } = useSWR("/api/now-playing", fetcher, {
     refreshInterval: 4000,
+    refreshWhenHidden: true,
   });
 
   console.log({ status, song, data });
