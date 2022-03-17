@@ -7,7 +7,7 @@ const clientID = process.env.LASTFM_CLIENT_ID;
 
 export default function index({ tweets }) {
   const { status, song } = useLastFM("OJPARKINSON", clientID, 4000);
-  const { data, error } = useSWR("/api/now-playing", {
+  const { data, error } = useSWR("/api/now-playing", fetcher, {
     refreshInterval: 4000,
     refreshWhenHidden: true,
   });
