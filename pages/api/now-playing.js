@@ -1,11 +1,12 @@
 import { getNowPlaying } from "lib/spotify";
 
 export default async function handler(req, res) {
-  const song = await getNowPlaying();
-
-  if (song.status === 204 || song.status > 400) {
+  const nowPlaying = await getNowPlaying();
+  if (nowPlaying.status === 204 || nowPlaying.status > 400) {
     return res.status(200).json({ isPlaying: false });
   }
+
+  const song = await nowPlaying.json();
 
   if (song.item === null) {
     return res.status(200).json({ isPlaying: false });
@@ -18,6 +19,16 @@ export default async function handler(req, res) {
   const albumImageUrl = song.item.album.images[0].url;
   const songUrl = song.item.external_urls.spotify;
   const currentlyPlayingType = song.item.type;
+
+  console.log("bonk", {
+    isPlaying,
+    isPodcast: currentlyPlayingType === "episode",
+    title,
+    artist,
+    album,
+    albumImageUrl,
+    songUrl,
+  });
 
   res.setHeader(
     "Cache-Control",
