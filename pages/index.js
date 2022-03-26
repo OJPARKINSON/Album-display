@@ -4,10 +4,11 @@ import useSWR from "swr";
 import fetcher from "lib/fetcher";
 
 const clientID = process.env.LASTFM_CLIENT_ID;
+const NOW_PLAYING_ENDPOINT = `https://api.spotify.com/v1/me/player/currently-playing`;
 
 export default function index({ tweets }) {
   const { status, song } = useLastFM("OJPARKINSON", clientID, 4000);
-  const { data, error } = useSWR("/api/now-playing", fetcher, {
+  const { data, error } = useSWR(NOW_PLAYING_ENDPOINT, fetcher, {
     refreshInterval: 4500,
     refreshWhenHidden: true,
   });
@@ -30,10 +31,10 @@ export default function index({ tweets }) {
           style={{ height: "300px", width: "300px" }}
         />
       )}
-      {data?.albumImageUrl && (
+      {data?.item.album.images[0].url && (
         <img
-          src={data.albumImageUrl}
-          alt={data.album}
+          src={data.item.album.images[0].url}
+          alt={data.item.album.name}
           style={{ height: "300px", width: "300px" }}
         />
       )}
