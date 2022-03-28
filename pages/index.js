@@ -1,6 +1,8 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import useSWR from "swr";
 import { fetcher } from "lib/spotify";
 import { getTweets } from "lib/twitter";
+import Image from "next/image";
 
 const NOW_PLAYING_ENDPOINT = `https://api.spotify.com/v1/me/player/currently-playing`;
 
@@ -13,13 +15,15 @@ export default function index({ tweets }) {
 
   if (error !== undefined || data === null) {
     refreshInterval = 10000;
-    return tweets.map(({ media, url }) => <img key={media} src={url} />);
+    return tweets.map(({ media, url, text }) => (
+      <Image key={media} src={url} alt={text} />
+    ));
   }
 
   return (
     <div style={{ position: "relative", height: "100vh", width: "100vw" }}>
       {data?.item.album.images[0].url && (
-        <img
+        <Image
           src={data.item.album.images[0].url}
           alt={data.item.album.name}
           style={{ height: "100vh", width: "100vw" }}
