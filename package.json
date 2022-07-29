@@ -22,9 +22,6 @@
     "lint": "next lint",
     "format": "prettier --write '**/*.{js,md,css,scss,json,ts}'"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
   "browserslist": {
     "production": [
       ">0.2%",
