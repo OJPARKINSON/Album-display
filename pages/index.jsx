@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import useSWR from "swr";
-import { spotifyFetch, getTweets } from "../lib";
 import Image from "next/image";
+import { spotifyFetch, getTweets } from "../lib";
 
 const NOW_PLAYING_ENDPOINT = `https://api.spotify.com/v1/me/player/currently-playing`;
 
