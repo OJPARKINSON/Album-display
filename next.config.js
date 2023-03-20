@@ -10,5 +10,7 @@ module.exports = {
     TWITTER_API_KEY: process.env.TWITTER_API_KEY,
     TWITTER_ID: process.env.TWITTER_ID,
   },
-  reactStrictMode: true,
+    reactStrictMode: true,
+    swcMinify: true,
+    swcLoader: true
 };
