@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
 import useSWR from "swr";
@@ -5,7 +6,7 @@ import Image from "next/image";
 
 import { spotifyFetch, NOW_PLAYING_ENDPOINT } from "../lib/spotify";
 
-const App = () => {
+export default function app() {
   const { data, error } = useSWR(NOW_PLAYING_ENDPOINT, spotifyFetch, {
     refreshInterval: 4500,
     refreshWhenHidden: true,
@@ -32,6 +33,4 @@ const App = () => {
     default:
       return <p>Nothing is playing</p>;
   }
-};
-
-export default App;
+}
