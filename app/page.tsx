@@ -54,18 +54,23 @@ const TrackDisplay = ({ fullscreen, url, name }: TrackDisplayType) => {
     );
   } else {
     return (
-      <div
-        style={{ backgroundImage: `url(${url})` }}
-        className="bg-cover bg-center bg-no-repeat"
-      >
-        <div className="backdrop-blur-xl m-0 p-0 w-screen h-screen flex items-center justify-center text-center">
+      <div className="w-screen h-screen grid grid-cols-1 grid-rows-1 items-center content-center">
+        <div className="overflow-hidden relative w-full h-full inline-block -z-1 blur-md">
+          <Image
+            layout="fill"
+            alt={name}
+            src={url}
+            className="-z-1 h-full w-full"
+          />
+        </div>
+        <div className="m-0 p-0 z-1 w-full h-full absolute grid justify-center">
           <Image
             src={url}
             alt={name}
             width={600}
             height={600}
             layout="fixed"
-            className="block shadow-outline self-center"
+            className="shadow-outline self-center"
           />
         </div>
       </div>
