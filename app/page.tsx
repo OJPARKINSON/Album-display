@@ -19,6 +19,12 @@ export default function AlbumDisplay() {
     return <h2>Error</h2>;
   }
 
+  if (!data) return null
+
+  console.log(data)
+
+
+
   switch (data?.currently_playing_type) {
     case "track":
       return (
