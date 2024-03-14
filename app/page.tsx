@@ -5,8 +5,16 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 
 import { spotifyFetch, NOW_PLAYING_ENDPOINT } from "../lib/spotify";
+import { Suspense } from "react";
 
-export default function AlbumDisplay() {
+export default function test () {
+  return (
+  <Suspense>
+    <AlbumDisplay />
+  </Suspense>
+)}
+
+function AlbumDisplay() {
   const searchParams = useSearchParams();
 
   const { data, error } = useSWR(NOW_PLAYING_ENDPOINT, spotifyFetch, {
