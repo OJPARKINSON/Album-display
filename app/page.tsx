@@ -35,6 +35,7 @@ function AlbumDisplay() {
 
   switch (data?.currently_playing_type) {
     case "track":
+      console.log(data);
       return (
         <TrackDisplay
           fullscreen={searchParams.get("fullscreen")}
@@ -45,7 +46,13 @@ function AlbumDisplay() {
     case "episode":
       return <p>A podcast playing</p>;
     default:
-      return <p>Nothing is playing</p>;
+      return (
+        <TrackDisplay
+          fullscreen={searchParams.get("fullscreen")}
+          url="https://i.scdn.co/image/ab67616d0000b2730389027010b78a5e7dce426b"
+          name="foo fighters"
+        />
+      );
   }
 }
 
