@@ -68,10 +68,10 @@ const TrackDisplay = ({ fullscreen, url, name }: TrackDisplayType) => {
       <Image
         placeholder="blur"
         blurDataURL={url}
-        layout="fill"
         alt={name}
         src={url}
-      />
+        fill
+        sizes="100vw" />
     );
   } else {
     return (
@@ -81,10 +81,10 @@ const TrackDisplay = ({ fullscreen, url, name }: TrackDisplayType) => {
             className="-z-1 h-full w-full"
             placeholder="blur"
             blurDataURL={url}
-            layout="fill"
             alt={name}
             src={url}
-          />
+            fill
+            sizes="100vw" />
         </div>
         <div className="m-0 p-0 z-1 w-full h-full absolute grid justify-center">
           <Image
@@ -92,11 +92,9 @@ const TrackDisplay = ({ fullscreen, url, name }: TrackDisplayType) => {
             alt={name}
             width={600}
             height={600}
-            layout="fixed"
             placeholder="blur"
             blurDataURL={url}
-            className="shadow-outline self-center"
-          />
+            className="shadow-outline self-center" />
         </div>
       </div>
     );
